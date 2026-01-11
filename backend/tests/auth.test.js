@@ -2,6 +2,7 @@ const request = require('supertest');
 const express = require('express');
 const mongoose = require('mongoose');
 const User = require('../src/models/User');
+const Student = require('../src/models/Student');
 const authRoutes = require('../src/routes/auth');
 
 require('./setup');
@@ -137,7 +138,8 @@ describe('Auth Routes', () => {
       const user = await User.create({
         name: 'Me User',
         email: 'me@example.com',
-        password: 'password123'
+        password: 'password123',
+        students: []
       });
       token = user.getSignedJwtToken();
     });
@@ -147,6 +149,9 @@ describe('Auth Routes', () => {
         .get('/api/auth/me')
         .set('Authorization', `Bearer ${token}`);
 
+      if (res.statusCode !== 200) {
+        console.log('Error response:', res.body);
+      }
       expect(res.statusCode).toBe(200);
       expect(res.body.success).toBe(true);
       expect(res.body.user.email).toBe('me@example.com');
