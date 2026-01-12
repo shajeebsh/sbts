@@ -34,12 +34,14 @@ const StudentForm = ({ student, onSubmit, onCancel }) => {
 
   const fetchRelatedData = async () => {
     try {
-      const [busesRes, routesRes] = await Promise.all([
+      const [busesRes, routesRes, parentsRes] = await Promise.all([
         api.getBuses(),
         api.getRoutes(),
+        api.getParents(),
       ]);
       setBuses(busesRes.data || []);
       setRoutes(routesRes.data || []);
+      setParents(parentsRes.data || []);
     } catch (err) {
       console.error('Error fetching data:', err);
     }
@@ -157,17 +159,23 @@ const StudentForm = ({ student, onSubmit, onCancel }) => {
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          Parent ID * (MongoDB ObjectId)
+          Parent *
         </label>
-        <input
-          type="text"
+        <select
           name="parent"
           value={formData.parent}
           onChange={handleChange}
           className="input-field"
           required
           disabled={!!student}
-        />
+        >
+          <option value="">-- Select Parent --</option>
+          {parents.map((parent) => (
+            <option key={parent._id} value={parent._id}>
+              {parent.name} ({parent.email})
+            </option>
+          ))}
+        </select>
       </div>
 
       <div>

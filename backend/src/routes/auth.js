@@ -128,4 +128,22 @@ router.put('/me', protect, [
   }
 });
 
+router.get('/parents', protect, async (req, res) => {
+  try {
+    const parents = await User.find({ role: 'parent', isActive: true })
+      .select('name email phone');
+    
+    res.json({
+      success: true,
+      count: parents.length,
+      data: parents
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
 module.exports = router;

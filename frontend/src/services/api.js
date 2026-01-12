@@ -1,4 +1,4 @@
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001/api';
 
 class ApiService {
   constructor() {
@@ -62,6 +62,10 @@ class ApiService {
 
   async getMe() {
     return this.request('/auth/me');
+  }
+
+  async getParents() {
+    return this.request('/auth/parents');
   }
 
   async getBuses() {
