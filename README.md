@@ -98,6 +98,7 @@ JWT_SECRET=your-secure-secret-key-change-this
 JWT_EXPIRE=7d
 NODE_ENV=development
 ```
+On Linux/Mac: openssl rand -base64 32
 
 5. Start MongoDB (if running locally):
 ```bash
